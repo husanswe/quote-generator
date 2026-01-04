@@ -108,8 +108,8 @@
     ]
 ];
     
-    $quote_text = 'Click the button to get your daily quote...'; 
-    $quote_author = '— Author';
+    $quote_text = ''; 
+    $quote_author = '';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
         $random_key = array_rand($quotes);
@@ -126,6 +126,8 @@
         unset($_SESSION['quote_text']);
         unset($_SESSION['quote_author']);
     }
+
+    unset($_SESSION);
 ?>
 
 <!DOCTYPE html>
