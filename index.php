@@ -114,7 +114,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
         $random_key = array_rand($quotes);
         $random_quote = $quotes[$random_key];
-        $_SESSOIN['quote_text'] = $random_quote['quote'];
+        $_SESSION['quote_text'] = $random_quote['quote'];
         $_SESSION['quote_author'] = $random_quote['author'];
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
@@ -123,6 +123,8 @@
     if (isset($_SESSION['quote_text'])) {
         $quote_text = $_SESSION['quote_text'];
         $quote_author = $_SESSION['quote_author'];
+        unset($_SESSION['quote_text']);
+        unset($_SESSION['quote_author']);
     }
 ?>
 
@@ -152,7 +154,7 @@
                             <i class="text-primary display-1 mb-4 opacity-25"></i>
                             
                             <p class="card-text fs-3 fw-light lh-lg mb-5 px-4">
-                                <?= htmlspecialchars($quote_text) ?> ?>
+                                <?= htmlspecialchars($quote_text) ?>
                             </p>
                             
                             <p class="text-muted fst-italic fs-5 mb-5">
