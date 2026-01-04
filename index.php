@@ -1,4 +1,6 @@
 <?php 
+    session_start();
+
     $quotes = [
     [
         "quote" => "The only way to do great work is to love what you do.",
@@ -105,12 +107,23 @@
         "author" => "Elon Musk (2025)"
     ]
 ];
+    
+    $quote_text = 'Click the button to get your daily quote...'; 
+    $quote_author = '— Author';
 
-    $random_key = array_rand($quotes);
-    $random_quote = $quotes[$random_key];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['generate'])) {
+        $random_key = array_rand($quotes);
+        $random_quote = $quotes[$random_key];
+        $_SESSOIN['quote_text'] = $random_quote['quote'];
+        $_SESSION['quote_author'] = $random_quote['author'];
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
-    echo "<div class='quote-text'>\"" . htmlspecialchars($random_quote['quote']) . "\"</div>";
-    echo "<div class='quote-author'>- " . htmlspecialchars($random_quote['author']) . "</div>";
+    if (isset($_SESSION['quote_text'])) {
+        $quote_text = $_SESSION['quote_text'];
+        $quote_author = $_SESSION['quote_author'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -136,20 +149,22 @@
                 <div class="col-12 col-md-10 col-lg-8 col-xl-6">
                     <div class="card border-primary border-2 bg-transparent text-center shadow-lg">
                         <div class="card-body p-5 d-flex flex-column align-items-center justify-content-center text-center">
-                            <i class="fas fa-quote-left text-primary display-1 mb-4 opacity-25"></i>
+                            <i class="text-primary display-1 mb-4 opacity-25"></i>
                             
-                            <p class="card-text fs-3 fw-light lh-lg mb-5 px-4" id="quoteText">
-                                
+                            <p class="card-text fs-3 fw-light lh-lg mb-5 px-4">
+                                <?= htmlspecialchars($quote_text) ?> ?>
                             </p>
                             
-                            <p class="text-muted fst-italic fs-5 mb-5" id="quoteAuthor">
-
+                            <p class="text-muted fst-italic fs-5 mb-5">
+                                <?=  htmlspecialchars($quote_author) ?>
                             </p>
                             
-                            <button class="btn btn-primary btn-lg px-5 shadow-lg" onclick="getNewQuote()">
-                                <i class="fas fa-sync-alt me-2"></i>
-                                Click for a quote
-                            </button>
+                            <form method="post">
+                                <button type="submit" name="generate" class="btn btn-primary btn-lg px-5 shadow-lg">
+                                    <i class="fas fa-sync-alt me-2"></i>
+                                    Click for a quote
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
