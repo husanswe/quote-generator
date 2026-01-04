@@ -140,7 +140,7 @@
         <title>Quote of the Day Generator</title>
     </head>
 
-    <body class="d-flex align-items-center justify-content-center min-vh-100 bg-dark text-white">
+    <body class="d-flex align-items-center justify-content-center min-vh-100  text-white">
         
         <div class="position-absolute top-0 start-0 w-100 p-3 bg-primary text-center text-white">
             <h1>Quote of the Day Generator</h1>
